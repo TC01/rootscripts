@@ -36,6 +36,8 @@ def main():
 		keys = tfile.GetListOfKeys()
 		printKeyList(tfile, keys)
 		tfile.Close()
+	except IndexError:
+		print "Error: invalid file specified."
 	except IOError:
 		print "Error: invalid file specified."
 
