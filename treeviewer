@@ -7,23 +7,37 @@ import ROOT
 
 # Because ROOT can't be bothered to ship a CLI tool to view trees.
 
+def printTreeLeaves(tree):
+	leaves = tree.GetListOfLeaves()
+	leaves.Print()
+
+def printKeyList(object, keys):
+	iterator = ROOT.TListIter(keys)
+	nextKey = iterator.Next()
+	while not nextKey is None and nextKey != None:
+		keyName = nextKey.GetName()
+		try:
+			newObject = object.Get(keyName)
+			if isinstance(newObject, ROOT.TTree):
+				printTreeLeaves(newObject)
+			else:
+				newObject.Print()
+		except:
+			pass
+		nextKey.Print()
+		nextKey = iterator.Next()
+
 def main():
 
-#	try:
+	try:
 		treename = sys.argv[1]
 		treename = os.path.abspath(treename)
 		tfile = ROOT.TFile(treename)
 		keys = tfile.GetListOfKeys()
-		iterator = ROOT.TListIter(keys)
-		nextKey = iterator.Next()
-		while not nextKey is None and nextKey != None:
-			nextKey.Print()
-			nextKey = iterator.Next()
-#		keys.Print()
-#		tfile.ls()
+		printKeyList(tfile, keys)
 		tfile.Close()
-#	except:
-#		print "Error: invalid file specified."
+	except IOError:
+		print "Error: invalid file specified."
 
 if __name__ == '__main__':
 	main()
