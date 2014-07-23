@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+import ROOT
+
+# Because ROOT can't be bothered to ship a CLI tool to view trees.
+
+def main():
+
+#	try:
+		treename = sys.argv[1]
+		treename = os.path.abspath(treename)
+		tfile = ROOT.TFile(treename)
+		keys = tfile.GetListOfKeys()
+		iterator = ROOT.TListIter(keys)
+		nextKey = iterator.Next()
+		while not nextKey is None and nextKey != None:
+			nextKey.Print()
+			nextKey = iterator.Next()
+#		keys.Print()
+#		tfile.ls()
+		tfile.Close()
+#	except:
+#		print "Error: invalid file specified."
+
+if __name__ == '__main__':
+	main()
