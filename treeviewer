@@ -27,10 +27,8 @@ def printKeyList(object, keys):
 		nextKey.Print()
 		nextKey = iterator.Next()
 
-def main():
-
+def treeviewer(treename):
 	try:
-		treename = sys.argv[1]
 		treename = os.path.abspath(treename)
 		tfile = ROOT.TFile(treename)
 		keys = tfile.GetListOfKeys()
@@ -40,6 +38,13 @@ def main():
 		print "Error: invalid file specified."
 	except IOError:
 		print "Error: invalid file specified."
+
+
+def main():
+	for argument in sys.argv[1:]:
+		print argument
+		treeviewer(argument)
+
 
 if __name__ == '__main__':
 	main()
