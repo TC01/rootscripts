@@ -20,6 +20,8 @@ def printKeyList(object, keys):
 			newObject = object.Get(keyName)
 			if isinstance(newObject, ROOT.TTree):
 				printTreeLeaves(newObject)
+			elif isinstance(newObject, ROOT.TDirectoryFile):
+				printKeyList(newObject, newObject.GetListOfKeys())
 			else:
 				newObject.Print()
 		except:
